@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 import { faker } from "@faker-js/faker";
 
 function createRandomPost() {
@@ -39,10 +39,13 @@ function App() {
     [isFakeDark]
   );
 
-  const archiveOptions = {
-    show: false,
-    title: "Post archive lưu trữ các bài viết quan trọng",
-  };
+  const archiveOptions = useMemo(() => {
+    return {
+      show: false,
+      title: `post archive lưu trữ các bài viết khác ngoài ${posts.length} bài viết chính`,
+    };
+  }, [posts.length]);
+
   return (
     <section>
       <button
