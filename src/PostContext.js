@@ -35,8 +35,6 @@ function PostProvider({ children }) {
   }
 
   const value = useMemo(() => {
-    // chỉ để nhìn thấy comp con render lại vì comp cha mẹ render lại (chứ ko phải vì Context thay đổi)
-    // Context thay đổi do đối tượng bên trong nó đc tạo lại vì Comp App là cha mẹ của PostContext re-render
     return {
       posts: searchedPosts,
       onAddPost: handleAddPost,
