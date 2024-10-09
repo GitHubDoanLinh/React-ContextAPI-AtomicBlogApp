@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 import { faker } from "@faker-js/faker";
 
 //step1: CREATE A CONTEXT
@@ -34,17 +34,21 @@ function PostProvider({ children }) {
     setPosts([]);
   }
 
+  const value = useMemo(() => {
+    // chỉ để nhìn thấy comp con render lại vì comp cha mẹ render lại (chứ ko phải vì Context thay đổi)
+    // Context thay đổi do đối tượng bên trong nó đc tạo lại vì Comp App là cha mẹ của PostContext re-render
+    return {
+      posts: searchedPosts,
+      onAddPost: handleAddPost,
+      onClearPost: handleClearPosts,
+      searchQuery,
+      setSearchQuery,
+    };
+  }, [searchQuery, searchedPosts]);
+
   return (
     //step2: PROVIDE VALUE TO CHILD COMPONENTS
-    <PostContext.Provider
-      value={{
-        posts: searchedPosts,
-        onAddPost: handleAddPost,
-        onClearPost: handleClearPosts,
-        searchQuery,
-        setSearchQuery,
-      }}
-    >
+    <PostContext.Provider value={value}>
       {children}
     </PostContext.Provider>
   );
